@@ -14,15 +14,19 @@ A sample follows.
 
 ## Installation
 
+Copy `rapl_init.sh` to `/usr/local/bin/rapl_init.sh`.
+
+Create `/etc/udev/rules.d/99-rapl.rules`.
+
+    SUBSYSTEM=="powercap", RUN+="/usr/local/bin/rapl_init.sh"
+
 Copy `cpu_stats.py` to `/usr/local/bin`.
-
-Add the following line to `/etc/sudoers.d/telegraf`.
-
-    telegraf ALL=(root) NOPASSWD: /usr/local/bin/cpu_stats.py
 
 Create `/etc/telegraf/telegraf.d/cpu_stats.conf` with the following contents.
 
     [[inputs.execd]]
-      command = ["sudo", "cpu_stats.py"]
+      command = ["cpu_stats.py"]
       signal = "STDIN"
       data_format = "influx"
+
+Reboot.
