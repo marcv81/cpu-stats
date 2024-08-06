@@ -114,10 +114,9 @@ def iter_power_stats():
                 energy_0, time_0 = previous[name]
                 # Use numerical differentiation to convert energy to power.
                 power = (energy_1 - energy_0) / (time_1 - time_0) / 1e6
-                if power < 0:
-                    continue
-                line = "cpu_power,name=%s value=%f\n" % (name, power)
-                lines.append(line)
+                if power >= 0:
+                    line = "cpu_power,name=%s value=%f\n" % (name, power)
+                    lines.append(line)
             previous[name] = energy_1, time_1
         yield lines
 
